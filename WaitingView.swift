@@ -32,8 +32,14 @@ struct WaitingView: View {
     @Binding var sketches: [UIImage]
     @Binding var Images: [Image]
     
+    @State var translator = TranslateAPI()
     
     var body: some View {
+        // Get the current locale
+                let currentLocale = Locale.current
+
+                // Get the language identifier (e.g., "en-US")
+                let languageCode = currentLocale.languageCode
         NavigationStack{
 
             
@@ -66,6 +72,19 @@ struct WaitingView: View {
                             startRotation()
                         }
                         DispatchQueue.global(qos: .background).async {
+                            
+                            // Check the language using if statement
+                            if languageCode == "it" {
+                                // Code for Italian language
+                                print("The app is in Italian")
+                                translator.italianEnglishTranslator.translate(prompt) { translatedText, error in
+                                    guard error == nil, let translatedText = translatedText else { return }
+                                    
+                                    // Translation succeeded.
+                                    print("Translation succeeded.")
+                                    prompt = translatedText
+                                }
+                            }
                             generating=true
                             // Convert the image to a UIImage
                             let uiImage = UIImage(named: "white")
@@ -353,9 +372,4 @@ struct CoolTextEditor: View {
     
     
     
-}
-
-
-#Preview {
-    WaitingView(prompt: .constant(""), finalimage: UIImage(), sketches: .constant([]), Images: .constant([]))
 }

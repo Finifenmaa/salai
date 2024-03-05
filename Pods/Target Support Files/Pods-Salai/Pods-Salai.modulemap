@@ -1,0 +1,6 @@
+module Pods_Salai {
+  umbrella header "Pods-Salai-umbrella.h"
+
+  export *
+  module * { export * }
+}
