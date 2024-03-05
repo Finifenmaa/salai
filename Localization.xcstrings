@@ -18,6 +18,17 @@
         }
       }
     },
+    "Generate a new sketch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genera un nuovo sketch"
+          }
+        }
+      }
+    },
     "Select images" : {
       "extractionState" : "manual",
       "localizations" : {

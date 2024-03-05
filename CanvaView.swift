@@ -22,6 +22,7 @@ struct ShareButton: View {
     }
 }
 
+
 struct CanvaView: View {
 
     @State private var canvas = PKCanvasView()
@@ -30,11 +31,20 @@ struct CanvaView: View {
     @State private var pencilType: PKInkingTool.InkType = .pencil
     @State private var colorPicker = false
     @State var sketch: UIImage
+    @Binding var sketches: [UIImage]
     @State private var isSaved = false
     @State private var selectedTool: PKInkingTool?
     @State var toShare: [UIImage] = []
+    @Binding var Images: [Image]
     @Binding var prompt: String
-    @Binding var shouldAutorun: Bool
+    @State var opacity: Double = 1.0
+    @State private var showAlertBack = false
+    @State private var showAlertRerun = false
+    @State private var isShowingSlider = false
+
+
+
+    
     @Environment(\.presentationMode) var presentationMode
 
     @State private var canvasView: PKCanvasView = {
@@ -48,34 +58,66 @@ struct CanvaView: View {
         NavigationStack{
             VStack {
                 HStack{
-                    Button(action: {self.presentationMode.wrappedValue.dismiss()}, label: {
-                        ZStack {
-                            RoundedRectangle(cornerSize: CGSize(width: 5, height: 5))
-                                .foregroundColor(.black)
-                                .frame(width: 100, height: 50)
-                            
-                            Image(systemName: "arrow.backward")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .foregroundColor(.white)
-                                .frame(width: 30, height: 30)
-                            
-                        }
-                        Spacer()
-                    })
-                    NavigationLink(destination: WaitingView(prompt: $prompt, shouldAutorun: .constant(true)), label:{
-                        ZStack {
-                            Circle()
-                                .foregroundColor(.black)
-                                .frame(width: 50, height: 50)
-                            
-                            Image(systemName: "arrow.clockwise")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .foregroundColor(.white)
-                                .frame(width: 30, height: 30)
-                        }})
+                    Button(action: {
+                                    self.showAlertBack = true
+                                }, label: {
+                                    ZStack {
+                                        RoundedRectangle(cornerSize: CGSize(width: 5, height: 5))
+                                            .foregroundColor(.black)
+                                            .frame(width: 100, height: 50)
+                                        Image(systemName: "arrow.backward")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .foregroundColor(.white)
+                                            .frame(width: 30, height: 30)
+                                    }
+                                })
+                                .alert(isPresented: $showAlertBack) {
+                                    Alert(title: Text("Warning"), message: Text("Are you sure you want to dismiss?"), primaryButton: .destructive(Text("Dismiss"), action: {
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }), secondaryButton: .cancel())
+                                }
                     Spacer()
+                    
+                    VStack {
+                        Button(action:{
+                                    self.isShowingSlider = true
+                                }, label: {
+
+                                        Text("Opacity")
+                                            .font(.body)
+                                            .fontWeight(.regular)
+                                            .foregroundStyle(.white)
+                                            .padding()
+                                    
+                                    .frame(width: 150)
+                                    .background(.black)
+                                    .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))}
+                                )
+                                .foregroundStyle(.black)
+                                .padding()
+                                .popover(isPresented: $isShowingSlider, arrowEdge: .top) {
+                                    VStack {
+                                        Slider(value: $opacity, in: 0.0...1.0)
+                                            .tint(.black)
+                                            .frame(width: 200)
+                                                        .padding()
+                                        
+                                        Button("Close") {
+                                            self.isShowingSlider = false
+                                        }
+                                        .padding()
+                                    }.interactiveDismissDisabled(true)
+                                    .background(Color.white)
+                                    .cornerRadius(10)
+                                    .shadow(radius: 5)
+                                    .padding()
+                                }
+                        
+                            }
+                                
+
+                    
                     Button {
                         toShare.removeAll()
                         self.saveDrawingAsPNG(sketch: sketch)
@@ -102,16 +144,19 @@ struct CanvaView: View {
                     }
                 }.padding(10)
                 ZStack{
-                    Image(uiImage: sketch).resizable()
+                    Image(uiImage: sketch).resizable().opacity(opacity).border(Color.black)
                     
                         .overlay(
-                            CanvasRepresentable(canvasView: $canvasView, selectedTool: $selectedTool).opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
+                            CanvasRepresentable(canvasView: $canvasView, selectedTool: $selectedTool).opacity(0.8)
                                 .edgesIgnoringSafeArea(.all)
                             
                             //   .border(Color.gray) // Optional: add a border
                                 .onAppear {
                                     canvasView.tool = selectedTool ?? PKInkingTool(.pen, color: .black, width: 15)
                                     canvasView.becomeFirstResponder()
+                                    print(sketch)
+                                    
+
                                 }).opacity(0.7)
                     
                     
@@ -123,7 +168,9 @@ struct CanvaView: View {
 
             }
         }
+
         .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden)
     }
 
     func saveDrawing() {
@@ -186,65 +233,6 @@ struct CanvaView: View {
     }
     
     func saveDrawingAsPNG(sketch: UIImage) {
-        
-        /*
-         let backgroundImage = sketch
-         let drawing = canvasView.drawing
-         
-         // Get the size of the canvas
-         let canvasSize = canvasView.bounds.size
-         
-         // Calculate the scale factor for the drawing
-         let scaleFactor = max(sketch.size.width / canvasSize.width, sketch.size.height / canvasSize.height)
-         
-         // Calculate the size of the drawing in the canvas coordinate system
-         let drawingSize = CGSize(width: drawing.bounds.width / scaleFactor, height: drawing.bounds.height / scaleFactor)
-         
-         // Calculate the position of the drawing in the canvas coordinate system
-         let drawingOrigin = CGPoint(x: (canvasSize.width - drawingSize.width) / 2, y: (canvasSize.height - drawingSize.height) / 2)
-         
-         // Create a drawing context with the canvas size
-         UIGraphicsBeginImageContextWithOptions(canvasSize, false, 0.0)
-         
-         // Draw the background image
-         backgroundImage.draw(in: CGRect(origin: .zero, size: canvasSize))
-         
-         // Draw the drawing image centered on the canvas
-         drawing.image(from: CGRect(origin: drawingOrigin, size: drawingSize), scale: 1.0).draw(at: drawingOrigin)
-         
-         // Get the merged image from the context
-         let mergedImage = UIGraphicsGetImageFromCurrentImageContext()
-         
-         // End the context
-         UIGraphicsEndImageContext()
-         
-         if let mergedImage = mergedImage {
-         toShare.append(mergedImage)
-         }
-         
-         toShare.append(backgroundImage)
-         toShare.append(drawing.image(from: drawing.bounds, scale: 1.0))
-         // Convert the UIImage to PNG data
-         guard let pngData = mergedImage?.pngData() else {
-         print("Failed to convert image to PNG data")
-         return
-         }
-         
-         // Save the PNG data to a file
-         let fileManager = FileManager.default
-         let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-         let fileURL = documentsURL.appendingPathComponent("drawing.png")
-         
-         do {
-         try pngData.write(to: fileURL)
-         print("Drawing saved as PNG at: \(fileURL)")
-         } catch {
-         print("Error saving drawing as PNG: \(error)")
-         }}
-         */
-        
-        
-        
         
         
         let backgroundImage = sketch
@@ -359,8 +347,6 @@ struct DrawingView: UIViewRepresentable {
     
     func makeUIView(context: Context) ->  PKCanvasView {
         canvas.drawingPolicy = .anyInput
-        //Eraser Tool
-        //canvas.tool = isDrawing ? ink : eraser
         canvas.alwaysBounceVertical = true
         canvas.frame = drawingFrame
         

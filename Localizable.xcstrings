@@ -4,47 +4,154 @@
     "Ai" : {
 
     },
-    "Ai Results" : {
+    "AI is generating your sketch..." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La AI sta generando il tuo sketch..."
+          }
+        }
+      }
+    },
+    "Are you sure you want to dismiss?" : {
 
     },
+    "Cancel" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annulla"
+          }
+        }
+      }
+    },
+    "Close" : {
+
+    },
+    "Dismiss" : {
+
+    },
+    "Done" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fatto!"
+          }
+        }
+      }
+    },
+    "Generate" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genera"
+          }
+        }
+      }
+    },
     "Generate a new sketch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Generate a new sketch"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Genera un nuovo sketch"
+          }
+        }
+      }
+    },
+    "Insert a prompt" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inserisci un prompt"
+          }
+        }
+      }
+    },
+    "No images uploaded in Your Portfolio" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessuna immagine caricata nel Portfolio"
+          }
+        }
+      }
+    },
+    "Opacity" : {
 
     },
     "Picker" : {
 
     },
     "portfolio" : {
-
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "portfolio"
+          }
+        }
+      }
     },
     "results" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "risultati"
+          }
+        }
+      }
+    },
+    "Results" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Risultati"
+          }
+        }
+      }
+    },
+    "Select your reference" : {
 
     },
-    "Select images" : {
+    "Sketches" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Seleziona immagini"
+            "value" : "Sketch"
           }
         }
       }
     },
-    "Select Images" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seleziona immagini"
-          }
-        }
-      }
-    },
-    "Upload here your illustrations for train your digital support" : {
+    "Warning" : {
 
     },
     "Your" : {
-
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il tuo"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

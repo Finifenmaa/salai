@@ -33,9 +33,13 @@ struct PortfolioView: View {
     @State var swipeHorizontalDirection: SwipeHorizontalDirection = .none { didSet { print(swipeHorizontalDirection) } }
     
     @State private var avatarPhotoItems: [PhotosPickerItem] = []
-    @Binding  var selectedImages: [Image]
+    @Binding var Images: [Image]
     @State var showImages = false
-
+    @State var SelectedImage: Image? = nil
+    @State var selectedIndex: Int = 0
+    @State var recoveredSketch: UIImage = UIImage()
+    @State var imageRecovered = false
+    @Binding var sketches: [UIImage] 
     var viewModel = PortfolioViewModel()
     
     
@@ -54,70 +58,28 @@ struct PortfolioView: View {
                     .font(.system(size: 192))
                     .fontWeight(.bold)
                     .padding(.top, -40)
-                Text("Upload here your illustrations for train your digital support")
-                    .font(.title3)
-                
-                
-                
-                PhotosPicker("Select images", selection: $avatarPhotoItems, matching: .images)
-                    .foregroundColor(.white)
-                    .padding()
+
+ 
+                    
+                Button(action: {showImages=true}){
+                    HStack{
+                        Image(systemName: "photo.artframe")
+                            .resizable()
+                            .foregroundStyle(.white)
+                            .frame(width: 30, height: 30)
+                            .padding(.leading)
+                        Text("Sketches")
+                            .font(.body)
+                            .fontWeight(.regular)
+                            .foregroundStyle(.white)
+                            .padding()
+                    }
                     .frame(width: 250)
                     .background(.black)
-                
-                    .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-                Button(action: {showImages=true}){
-                    ZStack{
-                        Rectangle().foregroundStyle(.gray)
-                            .frame(width: 200, height: 50)
-                        Text("Uploads")
-                            .fontWeight(.regular)
-                            .foregroundStyle(.black)
-                            .frame(width: 100, height: 50)
-                        
-                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 }
             }
-            .onChange(of: avatarPhotoItems) { _ in
-                selectedImages.removeAll()
-                Task {
-                        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-                        let sketchesDirectory = documentsDirectory.appendingPathComponent("Sketches")
-                        
-                        do {
-                            print("Sketches directory URL: \(sketchesDirectory)")
-
-                            try FileManager.default.createDirectory(at: sketchesDirectory, withIntermediateDirectories: true, attributes: nil)
-                            
-                            for (index, item) in avatarPhotoItems.enumerated() {
-                                if let loadedImage = try? await item.loadTransferable(type: Image.self) {
-                                    print("Loaded image successfully")
-
-                                    if let uiImage = loadedImage.asUIImage() {
-                                        print("Converted to UIImage successfully")
-
-                                        let imageData = uiImage.pngData()
-                                        let imageURL = sketchesDirectory.appendingPathComponent("sketch\(index).png")
-                                        try imageData?.write(to: imageURL)
-                                        selectedImages.append(loadedImage)
-                                    }else {
-                                        print("Failed to convert to UIImage")
-                                    }
-                                }
-                                
-                            }
-                        } catch {
-                            print("Error creating directory: \(error)")
-                        }
-                    }
-                if selectedImages.count > 0{
-                    areImagesLoaded = true
-                }
-                else{
-                areImagesLoaded=false}
-                
-                
-            }}
+        }
         .gesture(DragGesture()
             .onChanged {
                 print("dragging from Portfolio")
@@ -139,36 +101,57 @@ struct PortfolioView: View {
                             .foregroundStyle(.black)
                             .ignoresSafeArea().onTapGesture {
                                 showImages = false
-                                }
-                        
-                        
-                        
-                        
+                                print(showImages)}
+
                         
                         RoundedRectangle(cornerRadius: 12.0).foregroundColor(.white)
                             .frame(width: 500, height: 600, alignment: .center)
                         
-                        
-                        
-                        
-                        
                         VStack {
-                            
-                                Text("Your uploads")
+                            HStack{
+                                Button("Cancel"){
+                                    SelectedImage=nil
+                                    showImages=false
+                                }.foregroundStyle(.black)
+                                    .bold()
+                                Spacer()
+                                
+                                Text("Select your reference")
                                     .fontWeight(.heavy)
                                     .bold()
-                                    .frame(width: 500)
+                                Spacer()
+                                Button("Done"){
+                                    recoveredSketch = (SelectedImage?.asUIImage())!
+                                    print(recoveredSketch)
+                                    imageRecovered = true
+                                        
+                                }
+                                .foregroundStyle(.black)
+                                .bold()
+                                .navigationDestination(isPresented: $imageRecovered){CanvaView(sketch: sketches.count>0 ? sketches[selectedIndex] : UIImage(), sketches: $sketches, Images: $Images, prompt: .constant(""))}
+                                
+                            }.frame(width: 500)
                             
-                            if selectedImages.count>0{
+                            if Images.count>0{
                                 ScrollView {
                                     LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 5) {
-                                        ForEach(selectedImages.indices, id: \.self) { index in
-                                            selectedImages[index]
+                                        ForEach(Images.indices, id: \.self) { index in
+                                            Images[index]
                                                 .resizable()
                                                 .aspectRatio(contentMode: .fit)
                                                 .frame(width: 100, height: 100)
                                                 .cornerRadius(8)
-                                                
+                                                .overlay(
+                                                    RoundedRectangle(cornerRadius: 8)
+                                                        .stroke(Color.black, lineWidth: SelectedImage == Images[index] ? 3 : 0)
+                                                )
+                                                .onTapGesture {
+                                                    // Set the selected image
+                                                    SelectedImage = Images[index]
+                                                    selectedIndex = index
+                                                    print(index)
+                                                    print("Selected image: \(SelectedImage)")
+                                                }
                                         }
                                     }
                                     
@@ -181,6 +164,8 @@ struct PortfolioView: View {
                                 Text("No images uploaded in Your Portfolio")
                                     .font(.headline)
                                     .foregroundStyle(.gray)
+                                
+                                
                                 Spacer()
                                 HStack{
                                     Text("Cancel")
@@ -191,8 +176,8 @@ struct PortfolioView: View {
                                         .bold()
                                     Spacer()
                                     Text("Done")
-                                    .foregroundStyle(.blue)
-                                    .bold()
+                                        .foregroundStyle(.blue)
+                                        .bold()
                                     
                                 }.frame(width: 500)
                                     .opacity(0)
@@ -207,7 +192,6 @@ struct PortfolioView: View {
             
             
         ).frame(height: 650)
-            
         }
             
             
@@ -217,5 +201,5 @@ struct PortfolioView: View {
 
 
 #Preview {
-    PortfolioView(selected: .constant(1), areImagesLoaded: .constant(false), selectedImages: .constant([]))
+    PortfolioView(selected: .constant(1), areImagesLoaded: .constant(false), Images: .constant([]), sketches: .constant([]))
 }

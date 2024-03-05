@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
-
+import SwiftData
 
 struct ContainerView: View {
+    
+    @State var showCanvaView: Bool = false
     var body: some View {
 
             ContentView()

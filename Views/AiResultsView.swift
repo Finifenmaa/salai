@@ -9,12 +9,14 @@ import SwiftUI
 import PhotosUI
 
 struct AiResultsView: View {
+
    // @Binding var generating: Bool
     @Binding var isOverlayVisible: Bool
     @State var showResults: Bool = false
     @State  var results: [Image] = []
     @Binding var areImagesLoaded: Bool
-    @State var shouldAutorun = false
+    @Binding var Images: [Image]
+    @Binding var sketches: [UIImage]
     @Binding var selected: Int
     @State var prompt: String = ""
     enum SwipeHorizontalDirection: String {
@@ -34,14 +36,14 @@ struct AiResultsView: View {
                     .font(.title)
                     .fontWeight(.bold)
                     .padding(.bottom, -40)
-                Text("results")
+                Text("Results")
                     .font(.system(size: 192))
                     .fontWeight(.bold)
                     .padding(.top, -40)
                 
                 
                 if areImagesLoaded==false {
-                    NavigationLink(destination: WaitingView(prompt: $prompt, finalimage: UIImage(), shouldAutorun: $shouldAutorun), label:{
+                    NavigationLink(destination: WaitingView(prompt: $prompt, finalimage: UIImage(), sketches: $sketches, Images: $Images), label:{
                         HStack{
                             Image(systemName: "wand.and.stars")
                                 .resizable()
@@ -78,20 +80,7 @@ struct AiResultsView: View {
                         .background(.black)
                         .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
                     }}
-                Button(action: {showResults=true}){
-                    ZStack{
-                        Rectangle().foregroundStyle(.gray)
-                            .frame(width: 200, height: 50)
-                        Text("Results")
-                            .fontWeight(.regular)
-                            .foregroundStyle(.black)
-                            .frame(width: 100, height: 50)
-                        
-                    }
-                }
-                
-                
-                
+         
             }}
             .gesture(DragGesture()
                 .onChanged {
@@ -112,20 +101,12 @@ struct AiResultsView: View {
                                 .ignoresSafeArea().onTapGesture {
                                     showResults = false
                                     }
-                            
-                            
-                            
-                            
-                            
+                        
                             RoundedRectangle(cornerRadius: 12.0).foregroundColor(.white)
                                 .frame(width: 500, height: 600, alignment: .center)
-                            
-                            
-                            
-                            
-                            
+        
                             VStack {
-                                
+                        
                                     Text("Results")
                                         .fontWeight(.heavy)
                                         .bold()
@@ -187,5 +168,5 @@ struct AiResultsView: View {
 
 
 #Preview {
-    AiResultsView(isOverlayVisible: .constant(false), results: [], areImagesLoaded: .constant(false), selected: .constant(0))
+    AiResultsView(isOverlayVisible: .constant(false), results: [], areImagesLoaded: .constant(false), Images: .constant([]), sketches: .constant([]), selected: .constant(0))
 }

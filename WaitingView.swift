@@ -9,6 +9,7 @@ import SwiftUI
 import UIKit
 
 struct WaitingView: View {
+    
     @State var preprompt: String = "sketch art, line art drawing, line art, black line art, black line, black color, black lines, a line drawing, sketch drawing"
     
     @Binding var prompt: String
@@ -28,10 +29,9 @@ struct WaitingView: View {
     @State var imagepayload: [String] = []
     @State var finalimage: UIImage = UIImage()
     @State var whiteload: [String] = []
-    @Binding var shouldAutorun: Bool
+    @Binding var sketches: [UIImage]
+    @Binding var Images: [Image]
     
-    //@State var inputImage: CGImage?
-    //@State var resultImage: [CGImage]?
     
     var body: some View {
         NavigationStack{
@@ -48,18 +48,18 @@ struct WaitingView: View {
             {Text("Insert a prompt")
                     .font(.title)
                     .foregroundStyle(.gray)
-                .fontWeight(.bold)}
-            
-
-            TextEditor(text: $prompt)
-                .padding(4)
-                .clipShape(RoundedRectangle(cornerRadius: 15))
-                .background(
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(Color.gray.opacity(0.2))
-                )
-            
-            .padding()
+                    .fontWeight(.bold)
+                
+                
+                TextEditor(text: $prompt)
+                    .padding(4)
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                    .background(
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(Color.gray.opacity(0.2))
+                    )
+                
+                .padding()}
                     
                     Button(action: {
                         DispatchQueue.main.async {
@@ -76,14 +76,8 @@ struct WaitingView: View {
                                 return
                             }
                             
-                            // Convert the Data to a base64 string
                             whiteload.append(imageData.base64EncodedString())
                             
-                            
-                            // Call the API functions here
-                            //initImages.append(Image("image"))
-                            // callTxt2ImgAPI(payload: payloadTxt2Img)
-                            //imagepayload.append("white")
                             payloadImg2Img["init_images"] = whiteload
                             if var alwaysonScripts = payloadImg2Img["alwayson_scripts"] as? [String: Any],
                                var controlnet = alwaysonScripts["controlnet"] as? [String: Any],
@@ -98,11 +92,11 @@ struct WaitingView: View {
                                 alwaysonScripts["controlnet"] = controlnet
                                 payloadImg2Img["alwayson_scripts"] = alwaysonScripts}
                             
-                            //      payloadImg2Img["init_images"] = initImages
-                            //       payloadImg2Img["batch_size"] = initImages.count
                             payloadImg2Img["prompt"] = payloadImg2Img["prompt"] as! String+" "+prompt
                             
                             callImg2ImgAPI(payload: payloadImg2Img)
+                            sketches.append(finalimage)
+                            Images.append(Image(uiImage: finalimage))
                             generationEnded=true
                         }}){HStack {
                             Image(systemName: "wand.and.stars")
@@ -122,61 +116,8 @@ struct WaitingView: View {
                         .opacity(generating || prompt=="" ? 0.4 : 1)
                             .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))}
                         .disabled(generating || prompt=="")
-                        .navigationDestination(isPresented: $generationEnded){CanvaView(sketch: finalimage, prompt: $prompt, shouldAutorun: $shouldAutorun)}
-        }.onAppear{
-            if shouldAutorun{
-                payloadImg2Img["seed"] = Int.random(in: 0...Int.max)
-                DispatchQueue.main.async {
-                    startRotation()
-                }
-                DispatchQueue.global(qos: .background).async {
-                    generating=true
-                    
-                    let image = Image("white")
-                    
-                    // Convert the image to a UIImage
-                    let uiImage = UIImage(named: "white")
-                    
-                    // Convert the UIImage to Data
-                    guard let imageData = uiImage?.pngData() else {
-                        print("Failed to convert image to data")
-                        return
-                    }
-                    
-                    // Convert the Data to a base64 string
-                    whiteload.append(imageData.base64EncodedString())
-                    
-                    
-                    // Call the API functions here
-                    //initImages.append(Image("image"))
-                    // callTxt2ImgAPI(payload: payloadTxt2Img)
-                    //imagepayload.append("white")
-                    payloadImg2Img["init_images"] = whiteload
-                    if var alwaysonScripts = payloadImg2Img["alwayson_scripts"] as? [String: Any],
-                       var controlnet = alwaysonScripts["controlnet"] as? [String: Any],
-                       var args = controlnet["args"] as? [[String: Any]],
-                       var argsDict = args.first {
-                        // Update the value of "input_image"
-                        argsDict["input_image"] = imagepayload
-                        
-                        // Update the nested dictionaries and arrays in the payload
-                        args[0] = argsDict
-                        controlnet["args"] = args
-                        alwaysonScripts["controlnet"] = controlnet
-                        payloadImg2Img["alwayson_scripts"] = alwaysonScripts}
-                    
-                    //      payloadImg2Img["init_images"] = initImages
-                    //       payloadImg2Img["batch_size"] = initImages.count
-                    payloadImg2Img["prompt"] = payloadImg2Img["prompt"] as! String+" "+prompt
-                    
-                    callImg2ImgAPI(payload: payloadImg2Img)
-                    autoGenerationEnded=true
-                }}
-            
-        
+                        .navigationDestination(isPresented: $generationEnded){CanvaView(sketch: finalimage, sketches: $sketches, Images: $Images, prompt: $prompt)}
         }
-    
-            .navigationDestination(isPresented: $autoGenerationEnded){CanvaView(sketch: finalimage, prompt: $prompt, shouldAutorun: $shouldAutorun)}
             
         }
 
@@ -341,9 +282,7 @@ struct WaitingView: View {
     }
 
     func callImg2ImgAPI(payload: [String: Any]) {
-        print(payloadImg2Img["seed"])
         if let response = callAPI(endpoint: "sdapi/v1/img2img", payload: payload) {
-            
             
             let temporaryDirectory = URL(fileURLWithPath: NSTemporaryDirectory())
                    let outDirI2I = temporaryDirectory.appendingPathComponent("img2img")
@@ -418,5 +357,5 @@ struct CoolTextEditor: View {
 
 
 #Preview {
-    WaitingView(prompt: .constant(""), finalimage: UIImage(), shouldAutorun: .constant(false))
+    WaitingView(prompt: .constant(""), finalimage: UIImage(), sketches: .constant([]), Images: .constant([]))
 }

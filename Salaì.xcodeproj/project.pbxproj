@@ -14,7 +14,7 @@
 		6004E3892B83B99D00BEB7CD /* AiResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6004E3882B83B99D00BEB7CD /* AiResultsView.swift */; };
 		6004E38A2B83B99D00BEB7CD /* PortfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6004E3872B83B99D00BEB7CD /* PortfolioView.swift */; };
 		6006E03A2B90824D00235F63 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6006E0392B90824D00235F63 /* Media.xcassets */; };
-		600D3FD32B861BD100B3A545 /* Localization.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 600D3FD22B861BD100B3A545 /* Localization.xcstrings */; };
+		603ED5452B971A8C0090F365 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 603ED5442B971A8C0090F365 /* Localizable.xcstrings */; };
 		6051F0272B8396C2005DA335 /* Salai_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6051F0262B8396C2005DA335 /* Salai_App.swift */; };
 		6051F0292B8396C2005DA335 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6051F0282B8396C2005DA335 /* ContentView.swift */; };
 		6051F02B2B8396C5005DA335 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6051F02A2B8396C5005DA335 /* Assets.xcassets */; };
@@ -53,7 +53,7 @@
 		6004E3872B83B99D00BEB7CD /* PortfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioView.swift; sourceTree = "<group>"; };
 		6004E3882B83B99D00BEB7CD /* AiResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AiResultsView.swift; sourceTree = "<group>"; };
 		6006E0392B90824D00235F63 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
-		600D3FD22B861BD100B3A545 /* Localization.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localization.xcstrings; sourceTree = "<group>"; };
+		603ED5442B971A8C0090F365 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		6051F0232B8396C2005DA335 /* Salaì.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Salaì.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6051F0262B8396C2005DA335 /* Salai_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Salai_App.swift; sourceTree = "<group>"; };
 		6051F0282B8396C2005DA335 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -127,11 +127,11 @@
 		6051F01A2B8396C2005DA335 = {
 			isa = PBXGroup;
 			children = (
+				603ED5442B971A8C0090F365 /* Localizable.xcstrings */,
 				6006E0392B90824D00235F63 /* Media.xcassets */,
 				60684D652B8BA67B0038224B /* ContainerView.swift */,
 				60684D632B8BA4DE0038224B /* WaitingView.swift */,
 				609F376D2B8CE67D00D4D54F /* CanvaView.swift */,
-				600D3FD22B861BD100B3A545 /* Localization.xcstrings */,
 				6004E3812B83B99700BEB7CD /* ViewModel */,
 				6004E3862B83B99D00BEB7CD /* Views */,
 				6004E3772B83B84D00BEB7CD /* Models */,
@@ -310,8 +310,8 @@
 			files = (
 				6006E03A2B90824D00235F63 /* Media.xcassets in Resources */,
 				6051F02E2B8396C5005DA335 /* Preview Assets.xcassets in Resources */,
+				603ED5452B971A8C0090F365 /* Localizable.xcstrings in Resources */,
 				6051F02B2B8396C5005DA335 /* Assets.xcassets in Resources */,
-				600D3FD32B861BD100B3A545 /* Localization.xcstrings in Resources */,
 				609F37602B8C8E6700D4D54F /* Sketches in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -514,7 +514,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Salaì/Preview Content\"";
-				DEVELOPMENT_TEAM = B9N492SM99;
+				DEVELOPMENT_TEAM = Z993Z64L49;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -522,13 +522,13 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.finifenmaa.salai;
+				PRODUCT_BUNDLE_IDENTIFIER = com.claudiomarciello.salai;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -551,7 +551,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Salaì/Preview Content\"";
-				DEVELOPMENT_TEAM = B9N492SM99;
+				DEVELOPMENT_TEAM = Z993Z64L49;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -559,13 +559,13 @@
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.finifenmaa.salai;
+				PRODUCT_BUNDLE_IDENTIFIER = com.claudiomarciello.salai;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
