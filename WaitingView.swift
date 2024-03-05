@@ -9,6 +9,7 @@ import SwiftUI
 import UIKit
 
 struct WaitingView: View {
+    
     @State var preprompt: String = "sketch art, line art drawing, line art, black line art, black line, black color, black lines, a line drawing, sketch drawing"
     
     @Binding var prompt: String
@@ -20,6 +21,8 @@ struct WaitingView: View {
 
     @State var initializing = true
     @State private var rotationAngle: Double = 0
+    
+    @State var translator = TranslateAPI()
 
     
     let webUIServerURL = URL(string: "https://87d02e75d92de71421.gradio.live")!
@@ -34,6 +37,11 @@ struct WaitingView: View {
     //@State var resultImage: [CGImage]?
     
     var body: some View {
+        // Get the current locale
+        let currentLocale = Locale.current
+
+        // Get the language identifier (e.g., "en-US")
+        let languageCode = currentLocale.languageCode
         NavigationStack{
 
             
@@ -50,7 +58,6 @@ struct WaitingView: View {
                     .foregroundStyle(.gray)
                 .fontWeight(.bold)}
             
-
             TextEditor(text: $prompt)
                 .padding(4)
                 .clipShape(RoundedRectangle(cornerRadius: 15))
@@ -66,6 +73,18 @@ struct WaitingView: View {
                             startRotation()
                         }
                         DispatchQueue.global(qos: .background).async {
+                            // Check the language using if statement
+                            if languageCode == "it" {
+                              // Code for Italian language
+                              print("The app is in Italian")
+                                translator.italianEnglishTranslator.translate(prompt) { translatedText, error in
+                                    guard error == nil, let translatedText = translatedText else { return }
+
+                                    // Translation succeeded.
+                                    print("Translation succeeded.")
+                                prompt = translatedText
+                                }
+                            }
                             generating=true
                             // Convert the image to a UIImage
                             let uiImage = UIImage(named: "white")
@@ -417,6 +436,6 @@ struct CoolTextEditor: View {
 }
 
 
-#Preview {
+/*#Preview {
     WaitingView(prompt: .constant(""), finalimage: UIImage(), shouldAutorun: .constant(false))
-}
+}*/

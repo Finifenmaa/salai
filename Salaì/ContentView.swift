@@ -41,6 +41,11 @@ struct ContentView: View {
     }
     
     var body: some View {
+        // Get the current locale
+        let currentLocale = Locale.current
+
+        // Get the language identifier (e.g., "en-US")
+        let languageCode = currentLocale.languageCode
         NavigationStack{
             ZStack{
                 Image(selected==0 ? "AiResults": "Portfolio")
