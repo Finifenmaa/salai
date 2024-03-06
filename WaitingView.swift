@@ -129,8 +129,8 @@ struct WaitingView: View {
                                 alwaysonScripts["controlnet"] = controlnet
                                 payloadImg2Img["alwayson_scripts"] = alwaysonScripts}
                             
+                            payloadImg2Img["prompt"] = prompt + " , " + (payloadImg2Img["prompt"] as! String)
                             print(payloadImg2Img["prompt"] as! String)
-                            payloadImg2Img["prompt"] = payloadImg2Img["prompt"] as! String+" "+prompt
                             
                             callImg2ImgAPI(payload: payloadImg2Img)
                             sketches.append(finalimage)
