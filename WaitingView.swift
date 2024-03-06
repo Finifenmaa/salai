@@ -73,20 +73,7 @@ struct WaitingView: View {
                         }
                         DispatchQueue.global(qos: .background).async {
                             
-                            // Check the language using if statement
-                            if languageCode == "it" {
-                                // Code for Italian language
-                                print("The app is in Italian")
-                                translator.italianEnglishTranslator.translate(prompt) { translatedText, error in
-                                    guard error == nil, let translatedText = translatedText else { return }
-                                    
-                                    // Translation succeeded.
-                                    print("Translation succeeded.")
-                                    prompt = translatedText
-                                    print(prompt)
-
-                                }
-                            }
+                            
                             generating=true
                             // Convert the image to a UIImage
                             let uiImage = UIImage(named: "white")
@@ -100,6 +87,35 @@ struct WaitingView: View {
                             whiteload.append(imageData.base64EncodedString())
                             
                             payloadImg2Img["init_images"] = whiteload
+                            
+                            // Create a Dispatch Group
+                                  let translationGroup = DispatchGroup()
+                                  
+                                  if languageCode == "it" {
+                                      // Code for Italian language
+                                      print("The app is in Italian")
+                                      
+                                      // Enter the Dispatch Group before starting translation
+                                      translationGroup.enter()
+                                      
+                                      translator.italianEnglishTranslator.translate(prompt) { translatedText, error in
+                                          defer {
+                                              // Leave the Dispatch Group after translation completes, regardless of success or failure
+                                              translationGroup.leave()
+                                          }
+                                          
+                                          guard error == nil, let translatedText = translatedText else { return }
+                                          
+                                          // Translation succeeded.
+                                          print("Translation succeeded.")
+                                          prompt = translatedText
+                                          print(prompt)
+                                      }
+                                  }
+                                  
+                                  // Wait for the translation process to finish
+                                  translationGroup.wait()
+                            
                             if var alwaysonScripts = payloadImg2Img["alwayson_scripts"] as? [String: Any],
                                var controlnet = alwaysonScripts["controlnet"] as? [String: Any],
                                var args = controlnet["args"] as? [[String: Any]],
@@ -113,6 +129,7 @@ struct WaitingView: View {
                                 alwaysonScripts["controlnet"] = controlnet
                                 payloadImg2Img["alwayson_scripts"] = alwaysonScripts}
                             
+                            print(payloadImg2Img["prompt"] as! String)
                             payloadImg2Img["prompt"] = payloadImg2Img["prompt"] as! String+" "+prompt
                             
                             callImg2ImgAPI(payload: payloadImg2Img)
