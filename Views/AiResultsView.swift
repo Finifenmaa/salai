@@ -150,10 +150,3 @@ struct AiResultsView: View {
                 
             }
     }
-    
-
-
-
-#Preview {
-    AiResultsView(isOverlayVisible: .constant(false), results: [], areImagesLoaded: .constant(false), Images: .constant([]), sketches: .constant([]), selected: .constant(0))
-}

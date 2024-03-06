@@ -203,14 +203,3 @@ struct PortfolioView: View {
 
             
 }
-
-
-#Preview {
-    PortfolioView(selected: .constant(1), areImagesLoaded: .constant(false), Images: .constant([]), sketches: .constant([]))
-}
-
-
-var dic = ["human": ["human1", "human2", "human3"],
-           "mage": ["mage1", "mage2", "mage3"],
-           "2mage": ["2mage1", "2mage2", "2mage3"],
-           "3mage": ["3mage1", "3mage2", "3mage3"]]

@@ -77,8 +77,3 @@ struct ContentView: View {
                 }}.ignoresSafeArea()
                 
         }}}
-    
-
-#Preview {
-    ContentView()
-}
