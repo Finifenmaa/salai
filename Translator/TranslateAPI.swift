@@ -10,6 +10,8 @@ import MLKitTranslate
 
 class TranslateAPI{
     
+    static let shared = TranslateAPI()
+    
     let italianEnglishTranslator: Translator
 
     init() {

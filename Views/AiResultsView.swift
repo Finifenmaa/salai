@@ -28,21 +28,25 @@ struct AiResultsView: View {
     
     var body: some View {
         ZStack{
-            Rectangle().opacity(0.01).frame(width: 1000, height: 600)
+            Rectangle().opacity(0.01).frame(width: 1000, height: 1200)
                 .foregroundStyle(.gray)
             VStack{
-                Text("Ai")
-                    .font(.system(size: 192))
+                Text("Unleash")
+                    .font(.system(size: 96))
                     .font(.title)
                     .fontWeight(.bold)
-                    .padding(.bottom, -40)
-                Text("Results")
-                    .font(.system(size: 192))
+                    .padding(.bottom, -15)
+                Text("your")
+                    .font(.system(size: 96))
                     .fontWeight(.bold)
-                    .padding(.top, -40)
+                    .padding(-15)
+                Text("creativity")
+                    .font(.system(size: 96))
+                    .fontWeight(.bold)
+                .padding(.top, -15)
                 
                 
-                if areImagesLoaded==false {
+         
                     NavigationLink(destination: WaitingView(prompt: $prompt, finalimage: UIImage(), sketches: $sketches, Images: $Images), label:{
                         HStack{
                             Image(systemName: "wand.and.stars")
@@ -56,32 +60,15 @@ struct AiResultsView: View {
                                 .foregroundStyle(.white)
                                 .padding()
                         }
-                        .frame(width: 250)
+                        .frame(width: 300)
+                        .padding(15)
                         .background(.black)
-                        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-                    })
-                } else {
-                    Button(action: {
-                            isOverlayVisible=true})
-                    {
-                        HStack{
-                            Image(systemName: "wand.and.stars")
-                                .resizable()
-                                .foregroundStyle(.white)
-                                .frame(width: 30, height: 30)
-                                .padding(.leading)
-                            Text("Generate a new sketch")
-                                .font(.body)
-                                .fontWeight(.regular)
-                                .foregroundStyle(.white)
-                                .padding()
-                        }
-                        .frame(width: 250)
-                        .background(.black)
-                        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-                    }}
+                        .clipShape(RoundedRectangle(cornerRadius: 48, style: .continuous))
+                    })}
+                
          
-            }}
+            }
+
             .gesture(DragGesture()
                 .onChanged {
                     print("dragging from aiResults")
@@ -139,7 +126,7 @@ struct AiResultsView: View {
                                         Text("Cancel")
                                         Spacer()
                                             .foregroundStyle(.blue)
-                                        Text("Select your reference")
+                                        Text("")
                                             .fontWeight(.heavy)
                                             .bold()
                                         Spacer()

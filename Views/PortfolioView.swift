@@ -44,20 +44,24 @@ struct PortfolioView: View {
     
     
     
-    var body: some View {ZStack{
+    var body: some View {
         ZStack{
-            Rectangle().opacity(0.01).frame(width: 1000, height: 600)
+            Rectangle().opacity(0.01).frame(width: 1000, height: 1200)
                 .foregroundStyle(.gray)
             VStack{
                 Text("Your")
-                    .font(.system(size: 192))
+                    .font(.system(size: 96))
                     .font(.title)
                     .fontWeight(.bold)
-                    .padding(.bottom, -40)
-                Text("portfolio")
-                    .font(.system(size: 192))
+                    .padding(.bottom, -15)
+                Text("beautiful")
+                    .font(.system(size: 96))
                     .fontWeight(.bold)
-                    .padding(.top, -40)
+                    .padding(-15)
+                Text("creations")
+                    .font(.system(size: 96))
+                    .fontWeight(.bold)
+                    .padding(.top, -15)
 
  
                     
@@ -74,12 +78,15 @@ struct PortfolioView: View {
                             .foregroundStyle(.white)
                             .padding()
                     }
-                    .frame(width: 250)
+                    .frame(width: 300)
+                    .padding(15)
                     .background(.black)
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    .clipShape(RoundedRectangle(cornerRadius: 48, style: .continuous))
                 }
             }
         }
+        
+
         .gesture(DragGesture()
             .onChanged {
                 print("dragging from Portfolio")
@@ -88,10 +95,7 @@ struct PortfolioView: View {
                     selected=0
                     
                 }})
-        VStack{
-            Spacer().frame(height: 400)
-            }
-        }.overlay(
+       .overlay(
             Group {
                 if showImages {
                     ZStack{
@@ -116,11 +120,11 @@ struct PortfolioView: View {
                                     .bold()
                                 Spacer()
                                 
-                                Text("Select your reference")
+                                Text("Select a sketch")
                                     .fontWeight(.heavy)
                                     .bold()
                                 Spacer()
-                                Button("Done"){
+                                Button("Done!"){
                                     recoveredSketch = (SelectedImage?.asUIImage())!
                                     print(recoveredSketch)
                                     imageRecovered = true
@@ -143,7 +147,8 @@ struct PortfolioView: View {
                                                 .cornerRadius(8)
                                                 .overlay(
                                                     RoundedRectangle(cornerRadius: 8)
-                                                        .stroke(Color.black, lineWidth: SelectedImage == Images[index] ? 3 : 0)
+                                                        .stroke(SelectedImage == Images[index] ? .black : .gray, lineWidth: 3)
+                                                        .opacity(SelectedImage == Images[index] ? 1 : 0.4)
                                                 )
                                                 .onTapGesture {
                                                     // Set the selected image
@@ -161,7 +166,7 @@ struct PortfolioView: View {
                                 
                             }else{
                                 Spacer()
-                                Text("No images uploaded in Your Portfolio")
+                                Text("No sketches in Your Portfolio")
                                     .font(.headline)
                                     .foregroundStyle(.gray)
                                 
@@ -171,7 +176,7 @@ struct PortfolioView: View {
                                     Text("Cancel")
                                     Spacer()
                                         .foregroundStyle(.blue)
-                                    Text("Select your reference")
+                                    Text("Select your sketch")
                                         .fontWeight(.heavy)
                                         .bold()
                                     Spacer()
@@ -203,3 +208,9 @@ struct PortfolioView: View {
 #Preview {
     PortfolioView(selected: .constant(1), areImagesLoaded: .constant(false), Images: .constant([]), sketches: .constant([]))
 }
+
+
+var dic = ["human": ["human1", "human2", "human3"],
+           "mage": ["mage1", "mage2", "mage3"],
+           "2mage": ["2mage1", "2mage2", "2mage3"],
+           "3mage": ["3mage1", "3mage2", "3mage3"]]

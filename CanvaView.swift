@@ -59,6 +59,7 @@ struct CanvaView: View {
             VStack {
                 HStack{
                     Button(action: {
+                                    prompt=""
                                     self.showAlertBack = true
                                 }, label: {
                                     ZStack {
@@ -106,6 +107,7 @@ struct CanvaView: View {
                                         Button("Close") {
                                             self.isShowingSlider = false
                                         }
+                                        .foregroundStyle(.black)
                                         .padding()
                                     }.interactiveDismissDisabled(true)
                                     .background(Color.white)
@@ -144,20 +146,24 @@ struct CanvaView: View {
                     }
                 }.padding(10)
                 ZStack{
-                    Image(uiImage: sketch).resizable().opacity(opacity).border(Color.black)
+                    Image(uiImage: sketch)
+                        .resizable()
+                        .opacity(opacity)
+                        .border(Color.black)
                     
                         .overlay(
-                            CanvasRepresentable(canvasView: $canvasView, selectedTool: $selectedTool).opacity(0.8)
+                            CanvasRepresentable(canvasView: $canvasView, selectedTool: $selectedTool)
+                                .opacity(0.8)
                                 .edgesIgnoringSafeArea(.all)
                             
-                            //   .border(Color.gray) // Optional: add a border
                                 .onAppear {
                                     canvasView.tool = selectedTool ?? PKInkingTool(.pen, color: .black, width: 15)
                                     canvasView.becomeFirstResponder()
                                     print(sketch)
                                     
 
-                                }).opacity(0.7)
+                                })
+                        //.opacity(0.7)
                     
                     
                     

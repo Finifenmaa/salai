@@ -1,21 +1,39 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Ai" : {
+    "" : {
 
     },
     "AI is generating your sketch..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La AI sta generando il tuo sketch..."
+            "value" : "SalAI sta generando il tuo sketch..."
           }
         }
       }
     },
     "Are you sure you want to dismiss?" : {
-
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sei sicuro di voler tornare indietro?"
+          }
+        }
+      }
+    },
+    "beautiful" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "bellissime"
+          }
+        }
+      }
     },
     "Cancel" : {
       "localizations" : {
@@ -28,10 +46,44 @@
       }
     },
     "Close" : {
-
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiudi"
+          }
+        }
+      }
+    },
+    "creations" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "creazioni"
+          }
+        }
+      }
+    },
+    "creativity" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "creatività"
+          }
+        }
+      }
     },
     "Dismiss" : {
-
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Torna indietro"
+          }
+        }
+      }
     },
     "Done" : {
       "localizations" : {
@@ -42,6 +94,9 @@
           }
         }
       }
+    },
+    "Done!" : {
+
     },
     "Generate" : {
       "localizations" : {
@@ -90,13 +145,31 @@
         }
       }
     },
+    "No sketches in Your Portfolio" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessuno sketch nel tuo Portfolio"
+          }
+        }
+      }
+    },
     "Opacity" : {
-
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opacità"
+          }
+        }
+      }
     },
     "Picker" : {
 
     },
     "portfolio" : {
+      "extractionState" : "stale",
       "localizations" : {
         "it" : {
           "stringUnit" : {
@@ -127,8 +200,35 @@
         }
       }
     },
-    "Select your reference" : {
-
+    "SalAI is generating your sketch..." : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SalAI sta generando il tuo sketch..."
+          }
+        }
+      }
+    },
+    "Select a sketch" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleziona uno sketch"
+          }
+        }
+      }
+    },
+    "Select your sketch" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleziona uno sketch"
+          }
+        }
+      }
     },
     "Sketches" : {
       "localizations" : {
@@ -140,15 +240,42 @@
         }
       }
     },
+    "Unleash" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprigiona"
+          }
+        }
+      }
+    },
     "Warning" : {
-
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attenzione"
+          }
+        }
+      }
+    },
+    "your" : {
+      "localizations" : {
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "la tua"
+          }
+        }
+      }
     },
     "Your" : {
       "localizations" : {
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il tuo"
+            "value" : "Le tue"
           }
         }
       }

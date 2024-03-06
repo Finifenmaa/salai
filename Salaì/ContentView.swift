@@ -20,7 +20,7 @@ struct ContentView: View {
     @State var Images: [Image] = []
 
     
-    let filterOptions: [String] = ["Ai Results","Portfolio"]
+    let filterOptions: [String] = ["Ai Generation","Portfolio"]
     enum SwipeHorizontalDirection: String {
         case left, right, none
     }
@@ -34,8 +34,10 @@ struct ContentView: View {
         let attributes:[NSAttributedString.Key:Any] = [
             .foregroundColor : UIColor.white,
         ]
+        
         UISegmentedControl.appearance().setTitleTextAttributes(attributes, for: .selected)
         UISegmentedControl.appearance().backgroundColor = UIColor.init(white: 1, alpha: 1)
+
         UISegmentedControl.appearance().layer.cornerRadius = 100
        // self._generating = generating
         
@@ -44,22 +46,25 @@ struct ContentView: View {
     var body: some View {
         NavigationStack{
             ZStack{
-                Image(selected==0 ? "AiResults": "Portfolio")
+                Image(selected==0 ? "newAiGeneration": "Portfolio")
                     .frame(maxWidth: .infinity)
                     .frame(maxHeight: .infinity)
                 VStack{
                     Picker(selection: $selected,
                            label: Text("Picker"),
                            content: {
-                        ForEach(filterOptions.indices){ index in Text(filterOptions[index])
+                        ForEach(filterOptions.indices){ index in
+                            Text(filterOptions[index])
+                                
                                 .tag(filterOptions[index])
-                            
+
                         }
                         
                     })
                     .pickerStyle(SegmentedPickerStyle())
                     .padding(.horizontal)
-                    .frame(width:800)
+                    .frame(width:400)
+                    
                     
                     
                     if selected == 0{
@@ -70,7 +75,6 @@ struct ContentView: View {
                     }
                     // }
                 }}.ignoresSafeArea()
-                .blur(radius: isOverlayVisible ? 5 : 0)
                 
         }}}
     

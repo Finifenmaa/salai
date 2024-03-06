@@ -23,7 +23,7 @@ struct WaitingView: View {
     @State private var rotationAngle: Double = 0
 
     
-    let webUIServerURL = URL(string: "https://87d02e75d92de71421.gradio.live")!
+    let webUIServerURL = URL(string: "https://5a560068cfe0090810.gradio.live")!
     @State var initImages : [Image] = []
     let outDir = "Results"
     @State var imagepayload: [String] = []
@@ -32,7 +32,7 @@ struct WaitingView: View {
     @Binding var sketches: [UIImage]
     @Binding var Images: [Image]
     
-    @State var translator = TranslateAPI()
+    let translator = TranslateAPI.shared
     
     var body: some View {
         // Get the current locale
@@ -46,7 +46,7 @@ struct WaitingView: View {
             if generating == true{
                 Image("Star")
                     .rotationEffect(.degrees(rotationAngle), anchor: .center)
-                Text("AI is generating your sketch...")
+                Text("SalAI is generating your sketch...")
                     .font(.title)
                     .foregroundStyle(.gray)
                 .fontWeight(.bold)}
@@ -83,6 +83,8 @@ struct WaitingView: View {
                                     // Translation succeeded.
                                     print("Translation succeeded.")
                                     prompt = translatedText
+                                    print(prompt)
+
                                 }
                             }
                             generating=true
@@ -161,7 +163,7 @@ struct WaitingView: View {
     @State var payloadImg2Img: [String: Any] = [
         "prompt": "sketch art, line art drawing, line art, black line art, black line, black color, black lines, a line drawing, sketch drawing",
         "negative_prompt": " (unrealistic, render, 3d,cgi,cg,2.5d), (bad-hands-5:1.05), easynegative, [( NG_DeepNegative_V1_64T :0.9) :0.1], ng_deepnegative_v1_75t, worst quality, low quality, normal quality, child, hands, fingers (painting, drawing, sketch, cartoon, anime, render, 3d), blurry, deformed, disfigured, morbid, mutated, bad anatomy, bad art, (bad teeth, weird teeth, broken teeth), (weird nipples, twisted nipples, deformed nipples, flat nipples), (worst quality, low quality, logo, text, watermark, username), incomplete,",
-        "seed": Int.random(in: 0...Int.max),
+        "seed": 1,
         "steps": 20,
         "width": 512,
         "height": 512,
@@ -179,7 +181,7 @@ struct WaitingView: View {
                         "threshold_a": 100,
                         "threshold_b": 200,
                         "pixel_perfect": true,
-                        "control_mode": 2
+                        "control_mode": 1
 
                     ]
                 ]
