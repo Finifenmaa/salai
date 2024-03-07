@@ -125,9 +125,12 @@ struct PortfolioView: View {
                                     .bold()
                                 Spacer()
                                 Button("Done!"){
-                                    recoveredSketch = (SelectedImage?.asUIImage())!
-                                    print(recoveredSketch)
-                                    imageRecovered = true
+                                    if SelectedImage != nil {
+                                        recoveredSketch = (SelectedImage?.asUIImage())!
+                                        print(recoveredSketch)
+                                        imageRecovered = true}
+                                    else
+                                    {showImages=false}
                                         
                                 }
                                 .foregroundStyle(.black)
